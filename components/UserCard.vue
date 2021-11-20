@@ -13,7 +13,7 @@
     <div class="repo-container">
       <h3>{{ user.username }}'s repositories:</h3>
       <div v-for="repo in user.repos" :key="repo.id">
-        <v-btn :href="repo.html_url" text color="info">{{ repo.name }}</v-btn>
+        <v-btn text color="info" :href="repo.html_url">{{ repo.name }}</v-btn>
       </div>
     </div>
 
@@ -22,7 +22,7 @@
     <br />
     <v-row>
       <v-spacer />
-      <v-btn text @click="clearData" color="warning">Clear User Data</v-btn>
+      <v-btn text color="warning" @click="clearData">Clear User Data</v-btn>
       <v-spacer />
     </v-row>
   </div>
