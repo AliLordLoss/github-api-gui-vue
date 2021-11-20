@@ -1,4 +1,4 @@
-# github-api-gui
+# A simple GUI for github API using vue, nuxt, vuex, and vuetify
 
 ## Build Setup
 
