@@ -20,7 +20,6 @@ export const actions = {
 
   async fetchUserDataWithAccessToken({ commit }, { accessToken }) {
     const data = await this.$axios.$get(`https://api.github.com/user`, { headers: { authorization: `Bearer ${accessToken}` } })
-    console.log(data)
     const repos = await this.$axios.$get(`https://api.github.com/user/repos`, { headers: { authorization: `Bearer ${accessToken}` } })
     const user = {
       avatarUrl: data.avatar_url,
