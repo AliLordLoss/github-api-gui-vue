@@ -18,6 +18,23 @@ export const actions = {
     else if (accessToken) return dispatch('fetchUserDataWithAccessToken', { accessToken })
   },
 
+  async fetchUserDataWithAccessToken({ commit }, { accessToken }) {
+    const data = await this.$axios.$get(`https://api.github.com/user`, { headers: { authorization: `Bearer ${accessToken}` } })
+    console.log(data)
+    const repos = await this.$axios.$get(`https://api.github.com/user/repos`, { headers: { authorization: `Bearer ${accessToken}` } })
+    const user = {
+      avatarUrl: data.avatar_url,
+      following: data.following,
+      followers: data.followers,
+      repos,
+      username: data.login,
+    }
+
+    localStorage.setItem('accessToken', accessToken)
+    commit('SET_ACCESS_TOKEN', { accessToken })
+    commit('SET_USER_DATA', { user })
+  },
+
   async fetchUserDataWithUsername({ commit }, { username }) {
     const data = await this.$axios.$get(`https://api.github.com/users/${username}`)
     const repos = await this.$axios.$get(`https://api.github.com/users/${username}/repos`)
@@ -28,6 +45,7 @@ export const actions = {
       repos,
       username,
     }
+
     localStorage.setItem('username', username)
     commit('SET_USERNAME', { username })
     commit('SET_USER_DATA', { user })
@@ -43,11 +61,6 @@ export const actions = {
     let followers = await this.$axios.$get(`https://api.github.com/users/${state.user.username}/followers`)
     followers = followers.map((person) => ({ login: person.login, avatarUrl: person.avatar_url }))
     commit('SET_FOLLOWERS', { followers })
-  },
-
-  fetchUserDataWithAccessToken({ commit }, { accessToken }) {
-    localStorage.setItem('accessToken', accessToken)
-    commit('SET_ACCESS_TOKEN', { accessToken })
   },
 
   clearData({ commit }) {
